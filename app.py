@@ -188,7 +188,7 @@ def milestone_risk(plan_df: pd.DataFrame, merged_task_progress: pd.DataFrame, as
     # latest progress snapshot at/before asof
     snap = merged_task_progress.copy()
     snap = snap[snap["Week Ending"] <= asof].sort_values(["Task ID", "Week Ending"])
-    latest = snap.groupby("Task ID", as_index=False).tail(1)[["Task ID", "% Complete (as of week)", "EV", "AC", "Baseline Cost (BAC)"]]
+    latest = snap.groupby("Task ID", as_index=False).tail(1)[["Task ID", "% Complete (as of week)", "EV", "AC"]]
 
     # compute a simple "expected % complete by asof" for tasks using planned dates
     tasks_only = plan[~is_ms].copy()
@@ -506,4 +506,3 @@ with tab3:
                 "- “What are SPI and CPI saying?”"
             )
 
-st.caption("EVM definitions used: PV (planned time-phased budget), EV (BAC × %complete), AC (actual cost). SPI=EV/PV, CPI=EV/AC. :contentReference[oaicite:1]{index=1}")
