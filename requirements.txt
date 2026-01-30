@@ -1,0 +1,6 @@
+streamlit>=1.31
+pandas>=2.1
+openpyxl>=3.1
+plotly>=5.18
+streamlit-autorefresh>=1.0.1
+xlsxwriter>=3.1
