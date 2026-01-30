@@ -1,6 +1,6 @@
 import re
 from io import BytesIO
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -226,13 +226,13 @@ def milestone_risk(plan_df: pd.DataFrame, merged_task_progress: pd.DataFrame, as
     milestones = milestones.merge(ms_latest[["Task ID", "Milestone %"]], on="Task ID", how="left")
     milestones["Milestone %"] = milestones["Milestone %"].fillna(0.0)
 
-    lookahead_end = asof + pd.Timedelta(days=lookahead_days)
+    lookahead_end = asof + timedelta(days=lookahead_days)
     results = []
 
     for _, ms in milestones.iterrows():
         ms_date = ms["Start"]  # milestone planned date
         overdue = (asof > ms_date) and (ms["Milestone %"] < 100.0)
-        upcoming = (asof <= ms_date <= lookahead_end.date())
+        upcoming = (asof <= ms_date <= lookahead_end)
 
         # predecessor SPI estimate: if predecessor field exists, evaluate that predecessor task SPI
         preds = str(ms.get("Predecessor") or "").strip()
